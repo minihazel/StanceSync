@@ -11,7 +11,7 @@
 
 ## What This Mod Does
 
-Describe what your mod does here.
+Inspired by [HollywoodCam](https://forge.sp-tarkov.com/mod/2201/hollywoodcam) which is created by the almighty [Janky](https://forge.sp-tarkov.com/user/72916/jankytheclown), I created this little offshoot mod as a standalone for those who, like me, only used HollywoodCam for the leaning. The configuration is more or less the same, with some variation; lean-shoulder-swapping works while you're aiming with this mod. I have not noticed any problems with leaning during ADS, so I left it in.
 
 This template includes BepInEx Configuration examples. All settings are editable in-game via the **F12** config manager or by editing the config file at `BepInEx/config/hazelify.StanceSync.cfg`.
 
@@ -19,7 +19,8 @@ This template includes BepInEx Configuration examples. All settings are editable
 
 | Setting | Type | Default | Description |
 |---|---|---|---|
-| Enable Mod | `bool` | `true` | Enables or disables the mod |
+| Enable syncing | `bool` | `true` | Enable lean and shoulder swap sync |
+| Enable reset sync  | `bool` | `true` | Enable reset sync for leaning |
 
 ---
 
@@ -45,7 +46,7 @@ The project also packages the mod into a distributable `StanceSync.zip` ready to
 ## Installation
 
 1. Build the project (see above) **or** download the latest release DLL.
-2. Copy `StanceSync.dll` to `<SPT install>\BepInEx\plugins\`.
+2. Copy `StanceSync.dll` to `<SPT install>\BepInEx\plugins\` **or** Drag and drop the `BepInEx` folder to your source / root SPT install, where `SPT.Server` is.
 3. Launch SPT as usual.
 4. Press **F12** in-game to open the config manager and adjust settings.
 
@@ -55,10 +56,14 @@ The project also packages the mod into a distributable `StanceSync.zip` ready to
 
 ```
 StanceSync/
+├── Patches/
+    ├── OnLeanPatchPostfix.cs                  ← PatchPostfix for leaning
+    └── PlayerCameraControllerPatchPrefix.cs   ← PatchPrefix for camera controller
+├── Camera.cs           ← Unused file, too lazy to delete currently
 ├── StanceSync.csproj   ← project file with DLL references
-├── Plugin.cs              ← BepInEx plugin with config entries
-├── README.md
-└── .gitignore
+├── Plugin.cs           ← BepInEx plugin with config entries
+├── README.md           ← README file for reading
+└── .gitignore          ← Wwhich files Git should ignore
 ```
 
 ---
