@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace hazelify.StanceSync
 {
-    [BepInPlugin("hazelify.StanceSync", "StanceSync", "1.0.0")]
+    [BepInPlugin( /* internal name: */"hazelify.StanceSync", /* F12 name: */ "hazelify.StanceSync", "1.0.1")]
     [BepInIncompatibility("com.janky.hollywoodcam")]
     // good to know, if you have StanceSync installed, HollywoodCam will not work
 
@@ -16,6 +16,7 @@ namespace hazelify.StanceSync
         public static ManualLogSource LogSource;
         public static ConfigEntry<bool> enableSync;
         public static ConfigEntry<bool> enableResetSync;
+        public static ConfigEntry<bool> enableSyncWithOptic;
 
         private void Awake()
         {
@@ -27,7 +28,7 @@ namespace hazelify.StanceSync
             new OnLeanPatchPostfix().Enable();
 
             // log that the mod has loaded
-            LogSource.LogInfo($"StanceSync loaded!");
+            LogSource.LogInfo($"hazelify.StanceSync loaded!");
         }
 
         private void initConfig()
@@ -36,19 +37,30 @@ namespace hazelify.StanceSync
 
             // core mod feature, enabling lean swap sync [toggle]
             enableSync = Config.Bind(
-                "Configuration",
-                "Enable syncing",
+                "Core",
+                "Sync leaning with shoulder swapping?",
                 true,
-                "If leaning left, should the character automatically shoulder swap?"
-            );
+                new ConfigDescription("If leaning left, should the character automatically shoulder swap?",
+                null,
+                new ConfigurationManagerAttributes { Order = 3 }));
+
+            // whether to sync leaning when a magnified optic is equipped
+            enableSyncWithOptic = Config.Bind(
+                "Core",
+                "Sync leaning while optic is equipped?",
+                true,
+                new ConfigDescription("If a magnified optic is equipped, should leaning be synchronized at all?",
+                null,
+                new ConfigurationManagerAttributes { Order = 2 }));
 
             // reset lean sync for when you stop leaning [toggle]
             enableResetSync = Config.Bind(
-                "Configuration",
-                "Enable reset sync",
+                "Core",
+                "Sync leaning reset?",
                 true,
-                "If no longer leaning left, should the character automatically reset the shoulder swap?"
-            );
+                new ConfigDescription("If no longer leaning left, should the character automatically reset the shoulder swap?",
+                null,
+                new ConfigurationManagerAttributes { Order = 1 }));
         }
     }
 }

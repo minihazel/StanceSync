@@ -1,6 +1,8 @@
-﻿using SPT.Reflection.Patching;
+﻿using Comfort.Common;
 using EFT;
+using SPT.Reflection.Patching;
 using System.Reflection;
+using static EFT.Player;
 
 namespace hazelify.StanceSync.Patches;
 
@@ -18,10 +20,20 @@ public class OnLeanPatchPostfix : ModulePatch
         if (!Plugin.enableSync.Value || !__instance.IsYourPlayer || __instance.MovementContext == null)
             return;
 
-        var firearmController = __instance.HandsController as Player.FirearmController;
+        var _firearmController = __instance.HandsController as Player.FirearmController;
 
         // if leaning left and direction is more than 0, trigger shoulder swapping
         if ((__instance.MovementContext.LeftStanceEnabled && dir > 0f) || (!__instance.MovementContext.LeftStanceEnabled && dir < 0f))
-            firearmController.ChangeLeftStance();
+        {
+            var pwa = Singleton<GameWorld>.Instance.MainPlayer.ProceduralWeaponAnimation;
+            if (pwa == null) return;
+
+            var currentOptic = pwa.CurrentScope;
+
+            if (Plugin.enableSyncWithOptic.Value || !currentOptic.IsOptic)
+            {
+                _firearmController.ChangeLeftStance();
+            }
+        }
     }
 }

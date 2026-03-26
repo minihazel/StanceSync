@@ -1,12 +1,9 @@
 ﻿using Comfort.Common;
 using EFT;
+using EFT.Animations;
 using EFT.CameraControl;
 using SPT.Reflection.Patching;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
-using static EFT.Player;
 
 namespace hazelify.StanceSync.Patches
 {
@@ -36,7 +33,17 @@ namespace hazelify.StanceSync.Patches
                 {
                     // if leaning left but tilt is 0, trigger shoulder swapping back to default (toggle)
                     if (localPlayer.MovementContext.LeftStanceEnabled && localPlayer.MovementContext.Tilt == 0f)
-                        _firearmController.ChangeLeftStance();
+                    {
+                        var pwa = Singleton<GameWorld>.Instance.MainPlayer.ProceduralWeaponAnimation;
+                        if (pwa == null) return;
+
+                        var currentOptic = pwa.CurrentScope;
+
+                        if (Plugin.enableSyncWithOptic.Value || !currentOptic.IsOptic)
+                        {
+                            _firearmController.ChangeLeftStance();
+                        }
+                    }
                 }
             }
         }
