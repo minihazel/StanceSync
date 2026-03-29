@@ -34,15 +34,23 @@ namespace hazelify.StanceSync.Patches
                     // if leaning left but tilt is 0, trigger shoulder swapping back to default (toggle)
                     if (localPlayer.MovementContext.LeftStanceEnabled && localPlayer.MovementContext.Tilt == 0f)
                     {
+                        Player mainPlayer = Singleton<GameWorld>.Instance.MainPlayer;
                         var pwa = Singleton<GameWorld>.Instance.MainPlayer.ProceduralWeaponAnimation;
                         if (pwa == null) return;
 
                         var currentOptic = pwa.CurrentScope;
 
-                        if (Plugin.enableSyncWithOptic.Value || !currentOptic.IsOptic)
+                        bool isAiming = (_firearmController.IsAiming && mainPlayer.PointOfView == EPointOfView.FirstPerson);
+
+                        if (isAiming && Plugin.disableSyncWhileADS.Value)
                         {
-                            _firearmController.ChangeLeftStance();
+                            if (!Plugin.disableSyncWithOptic.Value || currentOptic.IsOptic)
+                            {
+                                return;
+                            }
                         }
+
+                        _firearmController.ChangeLeftStance();
                     }
                 }
             }

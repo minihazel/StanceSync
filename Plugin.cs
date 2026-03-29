@@ -16,7 +16,9 @@ namespace hazelify.StanceSync
         public static ManualLogSource LogSource;
         public static ConfigEntry<bool> enableSync;
         public static ConfigEntry<bool> enableResetSync;
-        public static ConfigEntry<bool> enableSyncWithOptic;
+
+        public static ConfigEntry<bool> disableSyncWhileADS;
+        public static ConfigEntry<bool> disableSyncWithOptic;
 
         private void Awake()
         {
@@ -42,16 +44,7 @@ namespace hazelify.StanceSync
                 true,
                 new ConfigDescription("If leaning left, should the character automatically shoulder swap?",
                 null,
-                new ConfigurationManagerAttributes { Order = 3 }));
-
-            // whether to sync leaning when a magnified optic is equipped
-            enableSyncWithOptic = Config.Bind(
-                "Core",
-                "Sync leaning while optic is equipped?",
-                true,
-                new ConfigDescription("If a magnified optic is equipped, should leaning be synchronized at all?",
-                null,
-                new ConfigurationManagerAttributes { Order = 2 }));
+                new ConfigurationManagerAttributes { Order = 4 }));
 
             // reset lean sync for when you stop leaning [toggle]
             enableResetSync = Config.Bind(
@@ -59,6 +52,28 @@ namespace hazelify.StanceSync
                 "Sync leaning reset?",
                 true,
                 new ConfigDescription("If no longer leaning left, should the character automatically reset the shoulder swap?",
+                null,
+                new ConfigurationManagerAttributes { Order = 3 }));
+
+            // disable synced lean while aiming down sights (ADS) [toggle]
+            disableSyncWhileADS = Config.Bind(
+                "Core",
+                "Disable synced lean while aiming?",
+                false,
+                new ConfigDescription("If aiming down sights, disable synchronized leaning completely.",
+                null,
+                new ConfigurationManagerAttributes { Order = 2 }));
+
+            // disable synced lean only while aiming down sights (ADS) with a magnified optic [toggle]
+            disableSyncWithOptic = Config.Bind(
+                "Core",
+                "Disable synced lean during optic ADS?",
+                false,
+                new ConfigDescription("If aiming down sights, only disable synchronized leaning while aiming with a magnified optic." +
+                                      "All other optics, such as red dots, collimators, or iron sights will allow synchronized leaning." +
+                                      "\n" +
+                                      "\n" +
+                                      "This will override `Disable synced lean while aiming?`. If you want to disable synchronized leaning while aiming with ANY optic, enable the other option and disable this one.",
                 null,
                 new ConfigurationManagerAttributes { Order = 1 }));
         }

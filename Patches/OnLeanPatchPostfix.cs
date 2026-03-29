@@ -29,11 +29,17 @@ public class OnLeanPatchPostfix : ModulePatch
             if (pwa == null) return;
 
             var currentOptic = pwa.CurrentScope;
+            bool isAiming = (_firearmController.IsAiming && __instance.PointOfView == EPointOfView.FirstPerson);
 
-            if (Plugin.enableSyncWithOptic.Value || !currentOptic.IsOptic)
+            if (isAiming && Plugin.disableSyncWhileADS.Value)
             {
-                _firearmController.ChangeLeftStance();
+                if (!Plugin.disableSyncWithOptic.Value || currentOptic.IsOptic)
+                {
+                    return;
+                }
             }
+
+            _firearmController.ChangeLeftStance();
         }
     }
 }
