@@ -73,7 +73,8 @@ namespace hazelify.StanceSync
                                       "All other optics, such as red dots, collimators, or iron sights will allow synchronized leaning." +
                                       "\n" +
                                       "\n" +
-                                      "This will override `Disable synced lean while aiming?`. If you want to disable synchronized leaning while aiming with ANY optic, enable the other option and disable this one.",
+                                      "This will override `Disable synced lean while aiming?`. If you want to disable synchronized leaning while aiming with ANY optic, enable the other option and disable this one." +
+                                      "\nIf this option is enabled, but `Disable synced lean while aiming?` is not enabled, sync behavior will default to always working.",
                 null,
                 new ConfigurationManagerAttributes { Order = 1 }));
         }
