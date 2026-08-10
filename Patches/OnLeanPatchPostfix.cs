@@ -10,7 +10,7 @@ public class OnLeanPatchPostfix : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return typeof(Player).GetMethod(nameof(Player.method_3));
+        return typeof(Player).GetMethod(nameof(Player.ToggleLean));
     }
 
     [PatchPostfix]

@@ -1,5 +1,6 @@
 ﻿using Comfort.Common;
 using EFT;
+using EFT.Settings;
 using UnityEngine;
 
 namespace hazelify.StanceSync
@@ -7,13 +8,13 @@ namespace hazelify.StanceSync
     public class Camera : MonoBehaviour
     {
         public Player localPlayer;
-        private SharedGameSettingsClass _gameSettings;
+        private SettingsManager _gameSettings;
         private Player.ItemHandsController _handsController;
         private Player.FirearmController _firearmController;
 
         public void Awake()
         {
-            _gameSettings = Singleton<SharedGameSettingsClass>.Instance;
+            _gameSettings = Singleton<SettingsManager>.Instance;
         }
 
         public void UpdateCamera()

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace hazelify.StanceSync
 {
-    [BepInPlugin( /* internal name: */"hazelify.StanceSync", /* F12 name: */ "hazelify.StanceSync", "1.0.1")]
+    [BepInPlugin( /* internal name: */"hazelify.StanceSync", /* F12 name: */ "hazelify.StanceSync", "1.1.1")]
     [BepInIncompatibility("com.janky.hollywoodcam")]
     // good to know, if you have StanceSync installed, HollywoodCam will not work
 
